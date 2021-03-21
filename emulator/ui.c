@@ -49,7 +49,6 @@ void tickUI(struct emu_ui* ui) {
         }
     }
     *ui->buttons = keypad;
-    ui->last_tick_time = SDL_GetTicks();
 }
 
 void drawDisplayUI(struct emu_ui* ui) {
@@ -68,7 +67,6 @@ void drawDisplayUI(struct emu_ui* ui) {
     }
 
     SDL_RenderPresent(ui->emu_renderer);
-    ui->last_frame_time = SDL_GetTicks();
 }
 
 void closeUI(struct emu_ui* ui) {
