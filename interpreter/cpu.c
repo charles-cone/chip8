@@ -103,8 +103,9 @@ union opcode_data parseNextOpcode(struct chip8* c) {
     return d;
 }
 
+// Ignored by all modern interpreters
 void sys(struct chip8*c, union opcode_data d) {
-    return; // Ignored by all modern interpreters
+    return;
 }
 
 // Clear display
@@ -229,21 +230,22 @@ void rnd_byte(struct chip8*c, union opcode_data d) {
 void drw(struct chip8*c, union opcode_data d) {
     unsigned char sprite_x = c->reg.v[d.reg_op.x];
     unsigned char sprite_y = c->reg.v[d.reg_op.y];
+    c->reg.v[0xf] = 0;
     // draw each sprite
     for(int i = 0; i < d.reg_op.end; i++ ) {
         // load sprite from memory
-        unsigned char sprite = c->mem[c->reg.I + i];
+        unsigned char sprite = c->mem[c->reg.I + i]; //works
         // offset by row of sprite, wrap if necessary, each display row has two values
-        int row_index = ((sprite_y+i) % DISP_Y) * 2;
+        int row_index = ((sprite_y+i) % DISP_Y) * 2; //assuming works
         // draw row of the sprite to the screen
-        for(int b = 1; b <= BITS_PER_BYTE; b++) {
+        for(int b = 0; b <= BITS_PER_BYTE; b++) { // assuming works
             // offset if writing to first or second display line
             int bit_offset = (sprite_x+b) % DISP_X;
             int line_index = row_index + (bit_offset / BITS_PER_LINE);
             // xor position if bit is high, account for sprites being flipped
-            if(sprite & (1 << (BITS_PER_BYTE - b))) {
+            if(sprite & (1 << (BITS_PER_BYTE - (b+1)))) {
                 int sprite_mask = 1 << bit_offset % BITS_PER_LINE;
-                c->reg.v[0xF] = c->display[line_index] & sprite_mask;
+                if(c->display[line_index] & sprite_mask) c->reg.v[0xF] = 1;
                 c->display[line_index] ^= sprite_mask;
             }
         }

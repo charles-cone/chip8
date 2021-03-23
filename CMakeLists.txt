@@ -13,10 +13,10 @@ FIND_PACKAGE(SDL2 REQUIRED)
 add_executable(chip8-emu
         common/rom_io.c common/rom_io.h
         common/opcode.c common/opcode.h
-        emulator/cpu.c emulator/cpu.h
-        emulator/main.c emulator/main.c
-        emulator/debugging.c emulator/debugging.h
-        emulator/ui.c emulator/ui.h
+        interpreter/cpu.c interpreter/cpu.h
+        interpreter/main.c interpreter/main.c
+        interpreter/debugging.c interpreter/debugging.h
+        interpreter/ui.c interpreter/ui.h
         )
 
 include_directories(chip8-emu ${SDL2_INCLUDE_DIRS})
