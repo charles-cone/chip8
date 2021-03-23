@@ -1,5 +1,6 @@
 # chip8
 Chip8 disassembler and interpreter written in C99
+![Demo](https://github.com/charles-cone/chip8/blob/master/demo.gif)
 
 ## Disassembler
 The disassembler uses a recursive traveral algorithim to find all opcodes in the program, and labels all found branch loactions.
@@ -22,7 +23,8 @@ cmake ../disassembler && make
 -o  print opcodes in hex
 -a  print the address of each opcode
 ```
-
+##### Note:
+*A Lot* of the chip8 programs I have encountered utilize self modifying code, so static disassembly is not perfect.
 
 ## Interpreter
 The interpreter uses opcode hashing with a table of function pointers for performance and is entirely functional with the exception of sound.
